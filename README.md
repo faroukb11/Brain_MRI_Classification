@@ -12,7 +12,7 @@ Instead of training a model from scratch or fine-tuning a heavyweight transforme
 - These embeddings can then be used for **any downstream task**:
   - Tumor detection
   - Stroke diagnosis
-  - Alzheimer classification
+ 
 - ⚡ This approach is **parameter-efficient** and **much faster to train** than end-to-end supervised models
 
 ---
