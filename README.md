@@ -79,7 +79,7 @@ Instead of a standard linear head, we use a Cosine MLP Classifier, which compute
 - Uses **cosine similarity** for positive/negative comparison
 - Learns representations from **unlabeled data**
 
-### 🛠️ Hyperparameters
+###  Hyperparameters
 
 - `hidden_dim = 128`
 - `temperature = 0.07`
