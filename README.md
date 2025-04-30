@@ -30,6 +30,16 @@ All images were resized, normalized, and converted to grayscale, then augmented 
 
 ---
 
+## Framework versions
+
+- **python**: 3.11.12
+- **torch**: 2.6.0+cpu
+- **torchvision**: 0.21.0+cpu
+- **pytorch_lightning**: 2.5.1.post0
+- **datasets**: 3.5.1
+
+---
+
 ## Data Augmentations
 
 We applied the following augmentations during SimCLR training to learn robust, structure-aware embeddings:
@@ -38,6 +48,7 @@ We applied the following augmentations during SimCLR training to learn robust, s
 - `GaussianBlur`
 - `Grayscale`
 - `RandomHorizontalFlip`
+- `RandomAffine`
 - `Normalize(mean=0.5, std=0.5)`
 
 ---
@@ -46,6 +57,68 @@ We applied the following augmentations during SimCLR training to learn robust, s
 
 After pretraining, we froze the SimCLR encoder and trained a **Cosine MLP Classifier** on top of the 512-dim features.
 Instead of a standard linear head, we use a Cosine MLP Classifier, which computes classification scores based on cosine similarity between normalized embeddings and class weights.
+
+---
+
+## Architecture & Hyperparameters Summary
+
+<table>
+<tr>
+<th style="text-align:center"> SimCLR Backbone</th>
+<th style="text-align:center"> Cosine MLP Classifier</th>
+</tr>
+<tr>
+<td>
+
+###  Key Design Points
+
+- Backbone: `torchvision.models.resnet18`
+- Modified projection head:
+  - `Linear(512 → 4×hidden_dim) → ReLU → Linear(4×hidden_dim → hidden_dim)`
+- Contrastive learning using **InfoNCE loss**
+- Uses **cosine similarity** for positive/negative comparison
+- Learns representations from **unlabeled data**
+
+### 🛠️ Hyperparameters
+
+- `hidden_dim = 128`
+- `temperature = 0.07`
+- `lr = 5e-4`
+- `weight_decay = 1e-4`
+- `batch_size = 512`
+- `max_epochs = 200`
+- `optimizer = AdamW`
+- `scheduler = CosineAnnealingLR`
+
+</td>
+<td>
+
+###  Key Design Points
+
+- Lightweight head trained on frozen SimCLR features (512-dim)
+- MLP encoder with batch norm and dropout:
+  - `Linear(512 → 256) → BatchNorm → GELU → Dropout`
+  - `Linear(256 → 128) → BatchNorm → GELU → Dropout`
+- Cosine-based classifier head:
+  - `Linear(128 → num_classes, bias=False)`
+  - Followed by cosine similarity + learnable scaling factor
+
+###  Hyperparameters
+
+- `hidden_dims = [512, 128]`
+- `dropout = 0.3`
+- `lr = 5e-4`
+- `weight_decay = 1e-3`
+- `batch_size = 256`
+- `max_epochs = 150`
+- `optimizer = AdamW`
+- `scheduler = MultiStepLR (at 60% and 80% of training)`
+
+</td>
+</tr>
+</table>
+
+---
 
 ## Results
 Despite training only the lightweight MLP head, we achieved strong performance across all tasks — matching or outperforming deeper fine-tuned models like DeiT with significantly fewer parameters and compute.
