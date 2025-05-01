@@ -4,6 +4,15 @@ This project explores **contrastive pretraining and feature-based transfer learn
 
 ---
 
+
+## Contributors
+-  [`Anh Bui`](https://github.com/anhbui229)
+-  [`Chin Vergara`](https://github.com/ChinMV)
+-  [`Farouk Braham`](https://github.com/faroukb11)
+
+
+---
+
 ## Why SimCLR?
 
 Instead of training a model from scratch or fine-tuning a heavyweight transformer like **Facebook's DeiT**, we use **SimCLR** to learn general-purpose brain scan features from unlabeled data.
@@ -16,6 +25,7 @@ Instead of training a model from scratch or fine-tuning a heavyweight transforme
 - ⚡ This approach is **parameter-efficient** and **much faster to train** than end-to-end supervised models
 
 ---
+
 
 ## 🧬 Datasets Used
 
@@ -97,8 +107,7 @@ Instead of a standard linear head, we use a Cosine MLP Classifier, which compute
 
 - Lightweight head trained on frozen SimCLR features (512-dim)
 - MLP encoder with batch norm and dropout:
-  - `Linear(512 → 256) → BatchNorm → GELU → Dropout`
-  - `Linear(256 → 128) → BatchNorm → GELU → Dropout`
+  - `Linear(512 → 128) → BatchNorm → RELU → Dropout`
 - Cosine-based classifier head:
   - `Linear(128 → num_classes, bias=False)`
   - Followed by cosine similarity + learnable scaling factor
@@ -130,4 +139,18 @@ Despite training only the lightweight MLP head, we achieved strong performance a
 ### Tumor Detection
 <table> <tr> <td><strong>Confusion Matrix</strong></td> <td><strong>Classification Report</strong></td> </tr> <tr> <td><img src="images/tumor.png" width="400"></td> <td><img src="images/tumor_cm.png" width="400"></td> </tr> </table>
 
+---
 
+##  References
+
+This project builds on foundational and recent work in contrastive learning and medical image analysis. Key references include:
+
+- **Chen, Ting, et al.** (2020). *A Simple Framework for Contrastive Learning of Visual Representations.* International Conference on Machine Learning (ICML). [SimCLR Paper](https://arxiv.org/abs/2002.05709)
+
+- **Chaitanya, Krishna, et al.** (2020). *Contrastive Learning of Global and Local Features for Medical Image Segmentation with Limited Annotations.* Advances in Neural Information Processing Systems (NeurIPS). [Link](https://arxiv.org/abs/2006.10511)
+
+- **Azizi, Sohil, et al.** (2021). *Big Self-Supervised Models Advance Medical Image Classification.* International Conference on Computer Vision (ICCV). [Link](https://arxiv.org/abs/2101.05224)
+
+- **Qin, Chen, et al.** (2022). *Self-Supervised Learning for Ischemic Stroke Lesion Segmentation from CT Perfusion Images.* Medical Image Analysis. [Link](https://doi.org/10.1016/j.media.2021.102247)
+
+- **Wang, Zihan, et al.** (2022). *Generalizable and Data-Efficient Stroke Detection with Self-Supervised Learning.* Frontiers in Neurology. [Link](https://www.frontiersin.org/articles/10.3389/fneur.2022.905605)
