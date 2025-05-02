@@ -141,6 +141,15 @@ Despite training only the lightweight MLP head, we achieved strong performance a
 
 ---
 
+## Usage 
+The models in this repo were trained on Google Colab using TPU v2-8 and the weights for each model are provided in the models_weights folder. Due to a rendering issue on Github, the notebooks can not be previewed without downloading them locally , so we included below links to open them on colab.
+- SimCLR training : <a target="_blank" href="https://colab.research.google.com/github/faroukb11/Brain_MRI_Classification/blob/main/Training_notebooks/Simclr.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+- Classifier training : <a target="_blank" href="https://colab.research.google.com/github/faroukb11/Brain_MRI_Classification/blob/main/Training_notebooks/classifier.ipynb">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
 ##  References
 
 This project builds on foundational and recent work in contrastive learning and medical image analysis. Key references include:
