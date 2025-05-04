@@ -59,6 +59,7 @@ We applied the following augmentations during SimCLR training to learn robust, s
 - `Grayscale`
 - `RandomHorizontalFlip`
 - `RandomAffine`
+- `GaussianNoise`
 - `Normalize(mean=0.5, std=0.5)`
 
 ---
